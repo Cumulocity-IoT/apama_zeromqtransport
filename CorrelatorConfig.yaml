@@ -1,0 +1,61 @@
+###############################################################################
+# $Copyright (c) 2019 Software AG, Darmstadt, Germany and/or Software AG USA Inc., Reston, VA, USA, and/or its subsidiaries and/or its affiliates and/or their licensors.$
+# Use, reproduction, transfer, publication or disclosure is prohibited except as specifically provided for in your License Agreement with Software AG
+###############################################################################
+
+### correlator --config CorrelatorConfig.yaml --config elasticsearchplugin.properties
+### Correlator config
+correlator:
+    initialization:
+        list:
+            - ${APAMA_HOME}/monitors/ConnectivityPluginsControl.mon
+            - ${APAMA_HOME}/monitors/ConnectivityPlugins.mon
+            - ${PARENT_DIR}/zeromq.mon
+        encoding: UTF8
+   
+
+### Connectivity Plugins Definition  
+connectivityPlugins:
+  ZeroMQTransport:
+    directory: ${PARENT_DIR}/target/
+    classpath: zmqtransport.jar
+    class: com.softwareag.zmqtransport.ZMQClientPlugin
+    
+  jsonCodec:
+    directory: ${APAMA_HOME}/lib/
+    classpath:
+      - json-codec.jar
+    class: com.softwareag.connectivity.plugins.JSONCodec
+    
+  stringCodec:
+    libraryName: connectivity-string-codec
+    class: StringCodec
+    
+  diagnosticCodec:
+    libraryName: DiagnosticCodec
+    class: DiagnosticCodec
+    
+### Logging
+correlatorLogging:
+  .root:
+    level: INFO
+  apama.connectivity: DEBUG
+  connectivity.ZeroMQTransport.zmq: DEBUG
+
+### Chains
+startChains:
+  zmq:
+    - apama.eventMap:
+        allowMissing: true 
+    - jsonCodec 
+    - stringCodec:
+        nullTerminated: true 
+    - ZeroMQTransport:
+        subPort: ${zmqclientplugin.subPort}
+        subHost: ${zmqclientplugin.subHost}
+        subTopic: ${zmqclientplugin.subTopic}
+        subEventType: ${zmqclientplugin.subEventType}
+        
+        pubPort: ${zmqclientplugin.pubPort}
+        pubHost: ${zmqclientplugin.pubHost}
+        pubTopic: ${zmqclientplugin.pubTopic}

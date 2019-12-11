@@ -1,0 +1,22 @@
+﻿/** This monitor is responsible for receiving a Weather Event form ZeroMQ Transport */
+event Weather{
+	string message_id;
+	integer humidity;
+	integer temperature_in_celsius;
+	string createdAt;
+
+}
+monitor zeromq {
+	
+	action onload() {
+
+		log "Loaded monitor zeromq" at INFO;
+		on all Weather() as w {
+			log "Received Weather: " + w.toString();
+			w.message_id := w.message_id + "_ANSWER";
+			
+			send w to "zmq";
+		}
+		com.softwareag.connectivity.ConnectivityPlugins.onApplicationInitialized();
+	}
+}

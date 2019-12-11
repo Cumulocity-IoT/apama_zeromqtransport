@@ -34,10 +34,10 @@
  
 </build>
   <dependencies>
-    <dependency>
+     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>[3.8.1,)</version>
       <scope>test</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.zeromq/jzmq -->
@@ -45,17 +45,17 @@
 <dependency>
     <groupId>org.zeromq</groupId>
     <artifactId>jeromq</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.1</version>
 </dependency>
-<dependency>
-    <groupId>com.softwareag</groupId>
-    <artifactId>connectivity-plugins-api</artifactId>
-    <version>9.12</version>
+ <dependency>
+	    <groupId>com.softwareag</groupId>
+	    <artifactId>connectivity-plugins-api</artifactId>
+	    <version>[10.0,)</version>
 </dependency>
-<dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-api</artifactId>
-    <version>1.7.25</version>
-</dependency>
+	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>slf4j-api</artifactId>
+	    <version>[1.7.25,)</version>
+	</dependency>
   </dependencies>
 </project>
